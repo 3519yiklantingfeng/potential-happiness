@@ -1,0 +1,154 @@
+Index: pytestdemo/test_setup_teardown.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pytestdemo/test_setup_teardown.py b/pytestdemo/test_setup_teardown.py
+new file mode 100644
+--- /dev/null	(date 1641719420765)
++++ b/pytestdemo/test_setup_teardown.py	(date 1641719420765)
+@@ -0,0 +1,20 @@
++def setup_function():
++    print("setup_function")
++
++def teardown_function():
++    print("teardown_function")
++
++def test_case1():
++    print("case1")
++
++class TestDemo:
++# 执行类 前后分别执行set_class   teardown_class
++    def setup_class(self):
++        print('TestDemo setup_class')
++    def teardown_class(self):
++        print('TestDemo taerdown_class')
++    #每个类里面的方法前后分别执行setup，teardown
++    def setup_class(self):
++        print('TestDemo setup')
++    def teardown_class(self):
++        print('TestDemo taerdown')
+Index: pytestdemo/test_param.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pytestdemo/test_param.py b/pytestdemo/test_param.py
+new file mode 100644
+--- /dev/null	(date 1641721704806)
++++ b/pytestdemo/test_param.py	(date 1641721704806)
+@@ -0,0 +1,24 @@
++import pytest
++@pytest.mark.parametrize('key,result',[
++    ['appium',200],['selenium',200],['request',200],['docker',300]],ids=['a','b','c','d'])
++def test_interface(key,result):
++    url = f'http://ceshiren.com/key={key}'
++    print(url)
++
++
++
++@pytest.mark.parametrize('a,b',[
++    [1,1],[100,100]
++])
++class TestDemo:
++    def test_a(self,a,b):
++        print(a,b)
++    def test_b(self,a,b):
++        print(a,b)
++
++
++@pytest.mark.parametrize('c',['x','y','z'])
++@pytest.mark.parametrize('b',[1,2,3])
++@pytest.mark.parametrize('a',['int','string','float'])
++def test_ab(a,b,c):
++    print(a,b,c)
+Index: pytestdemo/test_add.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pytestdemo/test_add.py b/pytestdemo/test_add.py
+new file mode 100644
+--- /dev/null	(date 1641721107957)
++++ b/pytestdemo/test_add.py	(date 1641721107957)
+@@ -0,0 +1,37 @@
++#相加功能
++import pytest
++
++from pytestdemo.Calculator import Calculator
++
++
++def add(a,b):
++    return a+b
++
++class TestCal:
++
++    print("setup")
++    def setup_class(self):
++        print("setup")
++
++
++        self.calc = Calculator()
++
++    def teardown_class(self):
++        print("teardown")
++    @pytest.mark.parametrize('a,b,expect',[
++        [1,1,2],[0.1,0.1,0.2],[1000,1000,2000],[0,1000,1000]
++    ],ids=['int1','float','bignum','zeronum'])
++    def test_add(self,a,b,expect):
++        # calc = Calculator()
++        assert expect == self.calc.add(a,b)
++    # def test_add1(self,a,b,expect):
++    #     # calc = Calculator()
++    #     assert expect == self.calc.add(0.1,0.1)
++    # def test_add2(self,a,b,expect):
++    #     # calc = Calculator()
++    #     assert expect == self.calc.add(1000,1000)
++    # def test_add3(self,a,b,expect):
++    #     # calc = Calculator()
++    #     assert expect == self.calc.add(0,1000)
++
++
+Index: pytestdemo/person.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pytestdemo/person.py b/pytestdemo/person.py
+new file mode 100644
+--- /dev/null	(date 1641722363848)
++++ b/pytestdemo/person.py	(date 1641722363848)
+@@ -0,0 +1,15 @@
++class Person:
++    def get_name(self):
++        return "hogwarts"
++
++
++    def get_age(self):
++        self.get_name()
++        print("11")
++
++    @classmethod
++    def getmoney(self):
++        return '1000'
++
++
++Person().get_age()
+Index: pytestdemo/Calculator.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pytestdemo/Calculator.py b/pytestdemo/Calculator.py
+new file mode 100644
+--- /dev/null	(date 1641717184158)
++++ b/pytestdemo/Calculator.py	(date 1641717184158)
+@@ -0,0 +1,8 @@
++#计算器
++class Calculator:
++    #相加
++    def add(self,a,b):
++        return a+b
++    #相除
++    def div(self,a,b):
++        return a/b
